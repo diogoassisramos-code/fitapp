@@ -16,6 +16,7 @@ import {
   STATUS_CONSULTORIA,
 } from "@/lib/admin";
 import { brl, dataLonga } from "@/lib/format";
+import { getAluno } from "@/lib/data";
 import { AlunosList } from "./AlunosList";
 import styles from "./detalhe.module.css";
 
@@ -63,6 +64,17 @@ export default async function ConsultoriaDetalhePage({
   const status = STATUS_CONSULTORIA[c.status];
   const assinatura = getAssinaturaPorConsultoria(c.id);
   const alunos = listAlunosPorConsultoria(c.id);
+
+  // Visão geral dos alunos da consultoria
+  const novosAlunos = alunos.filter((a) => a.desde >= "2026-06-01").length;
+  const naoAtendidos = alunos.filter((a) => {
+    if (a.status === "inativo") return true;
+    if (a.coachAlunoId) {
+      const rico = getAluno(a.coachAlunoId);
+      return !!(rico?.aguardandoProtocolo || rico?.checkinPendente);
+    }
+    return false;
+  }).length;
 
   return (
     <>
@@ -192,9 +204,26 @@ export default async function ConsultoriaDetalhePage({
         </Card>
       </div>
 
+      {/* Visão geral dos alunos da consultoria */}
+      <div className={styles.overviewGrid}>
+        <MetricCard
+          label="Alunos no painel"
+          value={alunos.length}
+          sub={`${c.alunosAtivos} ativos no total`}
+          icon="users"
+        />
+        <MetricCard label="Novos no mês" value={novosAlunos} icon="user-plus" />
+        <MetricCard
+          label="Precisam de atenção"
+          value={naoAtendidos}
+          sub="Aguardando protocolo / check-in"
+          icon="alert-triangle"
+        />
+      </div>
+
       <Card padded={false} className={styles.alunosCard}>
         <CardHeader
-          title={`Alunos (${alunos.length})`}
+          title={`Alunos da consultoria (${alunos.length})`}
           action={
             <Button size="sm" variant="outline" icon="plus" href="/admin/alunos">
               Novo aluno

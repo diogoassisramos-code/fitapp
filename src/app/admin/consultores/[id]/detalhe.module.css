@@ -37,6 +37,19 @@
   margin-bottom: var(--space-6);
 }
 
+.overviewGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-4);
+  margin-bottom: var(--space-6);
+}
+
+@media (max-width: 880px) {
+  .overviewGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* ===== Grid de cards ===== */
 .grid2 {
   display: grid;

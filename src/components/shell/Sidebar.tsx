@@ -11,42 +11,24 @@ function isActive(href: string, pathname: string): boolean {
 }
 
 export function Sidebar({
-  collapsed,
-  onToggleCollapse,
+  open,
   onCloseMobile,
 }: {
-  collapsed: boolean;
-  onToggleCollapse: () => void;
+  open: boolean;
   onCloseMobile: () => void;
 }) {
   const pathname = usePathname();
 
   return (
-    <aside className={styles.sidebar} data-collapsed={collapsed}>
-      {/* Logo + colapsar */}
+    <aside className={styles.sidebar} data-open={open}>
+      {/* Logo */}
       <div className={styles.head}>
         <Link href="/" className={styles.logo} onClick={onCloseMobile}>
           <span className={styles.logoMark}>
             <i className="ti ti-barbell" aria-hidden />
           </span>
-          <span className={styles.logoText}>CoachFit</span>
+          <span className={styles.label}>CoachFit</span>
         </Link>
-        <button
-          type="button"
-          className={styles.collapseBtn}
-          onClick={onToggleCollapse}
-          aria-label={collapsed ? "Expandir menu" : "Recolher menu"}
-          title={collapsed ? "Expandir menu" : "Recolher menu"}
-        >
-          <i
-            className={
-              collapsed
-                ? "ti ti-layout-sidebar-left-expand"
-                : "ti ti-layout-sidebar-left-collapse"
-            }
-            aria-hidden
-          />
-        </button>
       </div>
 
       {/* Navegação */}
@@ -60,38 +42,36 @@ export function Sidebar({
               className={styles.navItem}
               data-active={active}
               onClick={onCloseMobile}
-              title={collapsed ? item.label : undefined}
             >
               <i className={`ti ti-${item.icon}`} aria-hidden />
-              <span className={styles.navLabel}>{item.label}</span>
+              <span className={styles.label}>{item.label}</span>
             </Link>
           );
         })}
       </nav>
 
       {/* Acesso ao painel administrativo da plataforma */}
-      <Link
-        href="/admin"
-        className={styles.adminLink}
-        onClick={onCloseMobile}
-        title={collapsed ? "Painel admin" : undefined}
-      >
+      <Link href="/admin" className={styles.navItem} onClick={onCloseMobile}>
         <i className="ti ti-shield-cog" aria-hidden />
-        <span className={styles.navLabel}>Painel admin</span>
+        <span className={styles.label}>Painel admin</span>
       </Link>
 
       {/* Card do usuário no rodapé */}
       <div className={styles.userRow}>
-        <Link href="/configuracoes" className={styles.userCard} onClick={onCloseMobile}>
+        <Link
+          href="/configuracoes"
+          className={styles.userCard}
+          onClick={onCloseMobile}
+        >
           <span className={styles.avatar}>{COACH.iniciais}</span>
-          <span className={styles.userMeta}>
+          <span className={`${styles.userMeta} ${styles.label}`}>
             <span className={styles.userName}>{COACH.nome}</span>
             <span className={styles.userConselho}>{COACH.conselho}</span>
           </span>
         </Link>
         <Link
           href="/login"
-          className={styles.logout}
+          className={`${styles.logout} ${styles.label}`}
           onClick={onCloseMobile}
           title="Sair"
           aria-label="Sair"

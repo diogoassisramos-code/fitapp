@@ -205,6 +205,7 @@ function AlunoRow({
   const ativo = aluno.status === "ativo";
   return (
     <ListRow
+      onClick={() => router.push(`/admin/alunos/${aluno.id}`)}
       leading={<Avatar name={aluno.nome} />}
       title={aluno.nome}
       action={
@@ -214,6 +215,11 @@ function AlunoRow({
           </StatusBadge>
           <KebabMenu
             items={[
+              {
+                label: "Ver perfil completo",
+                icon: "user-circle",
+                onClick: () => router.push(`/admin/alunos/${aluno.id}`),
+              },
               {
                 label: "Ver consultoria",
                 icon: "building-store",

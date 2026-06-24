@@ -26,7 +26,7 @@ export function AdminSidebar({
           <span className={styles.logoMark}>
             <i className="ti ti-shield-cog" aria-hidden />
           </span>
-          <span className={styles.logoText}>
+          <span className={`${styles.logoText} ${styles.label}`}>
             CoachFit
             <span className={styles.logoTag}>ADMIN</span>
           </span>
@@ -43,7 +43,7 @@ export function AdminSidebar({
             onClick={onCloseMobile}
           >
             <i className={`ti ti-${item.icon}`} aria-hidden />
-            <span>{item.label}</span>
+            <span className={styles.label}>{item.label}</span>
           </Link>
         ))}
       </nav>
@@ -51,15 +51,20 @@ export function AdminSidebar({
       <div className={styles.foot}>
         <Link href="/" className={styles.switch} onClick={onCloseMobile}>
           <i className="ti ti-arrow-back-up" aria-hidden />
-          App do consultor
+          <span className={styles.label}>App do consultor</span>
         </Link>
         <div className={styles.userCard}>
           <span className={styles.avatar}>{ADMIN_USER.iniciais}</span>
-          <span className={styles.userMeta}>
+          <span className={`${styles.userMeta} ${styles.label}`}>
             <span className={styles.userName}>{ADMIN_USER.nome}</span>
             <span className={styles.userEmail}>{ADMIN_USER.email}</span>
           </span>
-          <Link href="/login" className={styles.logout} aria-label="Sair" title="Sair">
+          <Link
+            href="/login"
+            className={`${styles.logout} ${styles.label}`}
+            aria-label="Sair"
+            title="Sair"
+          >
             <i className="ti ti-logout" aria-hidden />
           </Link>
         </div>

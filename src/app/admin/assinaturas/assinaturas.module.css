@@ -4,6 +4,36 @@
   gap: var(--space-6);
 }
 
+/* Stats por consultor na linha de assinatura */
+.stats {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px var(--space-3);
+}
+
+.stat {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+}
+
+.stat i {
+  font-size: 14px;
+  color: var(--color-text-tertiary);
+}
+
+.stat[data-receita] {
+  color: var(--color-text-success);
+}
+
+.stat[data-receita] i {
+  color: var(--color-text-success);
+}
+
 .metrics {
   display: grid;
   grid-template-columns: repeat(4, 1fr);

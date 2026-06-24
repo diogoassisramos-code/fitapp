@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { useRouter } from "next/navigation";
 import { PageHeader } from "@/components/PageHeader";
 import {
   Avatar,
@@ -42,6 +43,7 @@ const FILTROS: { id: Filtro; label: string }[] = [
 ];
 
 export default function AssinaturasPage() {
+  const router = useRouter();
   const [filtro, setFiltro] = useState<Filtro>("todas");
   const assinaturas = useMemo(() => listAssinaturas(), []);
 
@@ -153,6 +155,10 @@ export default function AssinaturasPage() {
             return (
               <ListRow
                 key={a.id}
+                onClick={() =>
+                  consultoria &&
+                  router.push(`/admin/consultores/${consultoria.id}`)
+                }
                 leading={<Avatar name={consultoria?.consultor ?? "—"} />}
                 title={consultoria?.nomeNegocio ?? "Consultoria removida"}
                 action={
@@ -165,6 +171,24 @@ export default function AssinaturasPage() {
                 meta={`${planoPlataformaNome(a.planoId)} · próxima cobrança ${dataCurta(
                   a.proximaCobranca
                 )} · ${a.metodo}`}
+                tags={
+                  consultoria && (
+                    <span className={styles.stats}>
+                      <span className={styles.stat}>
+                        <i className="ti ti-users" aria-hidden />{" "}
+                        {consultoria.alunosAtivos} clientes
+                      </span>
+                      <span className={styles.stat}>
+                        <i className="ti ti-chart-bar" aria-hidden /> volume{" "}
+                        {brl(consultoria.faturamentoMensal)}/mês
+                      </span>
+                      <span className={styles.stat} data-receita>
+                        <i className="ti ti-trending-up" aria-hidden /> traz{" "}
+                        {brl(consultoria.mrr)}/mês
+                      </span>
+                    </span>
+                  )
+                }
               />
             );
           })

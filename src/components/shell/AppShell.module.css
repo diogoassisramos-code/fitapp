@@ -1,19 +1,15 @@
 .shell {
-  --current-sidebar-w: var(--sidebar-w);
   min-height: 100vh;
   background: var(--color-background-secondary);
 }
 
-.shell[data-collapsed="true"] {
-  --current-sidebar-w: var(--sidebar-w-collapsed);
-}
-
+/* O conteúdo deixa só a largura do trilho à esquerda; a sidebar
+   expandida no hover sobrepõe o conteúdo (não empurra). */
 .main {
-  margin-left: var(--current-sidebar-w);
+  margin-left: var(--sidebar-w-collapsed);
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  transition: margin-left var(--transition);
 }
 
 .content {

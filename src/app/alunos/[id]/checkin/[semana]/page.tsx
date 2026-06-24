@@ -11,7 +11,7 @@ import {
   MetricCard,
   StatusBadge,
   Textarea,
-  LineChart,
+  PointsChart,
   Modal,
   EmptyState,
 } from "@/components/ui";
@@ -43,9 +43,10 @@ export default function RevisaoCheckinPage({
       ? Number((checkin.peso - anterior.peso).toFixed(1))
       : undefined;
 
-  const pesoData = historico.map((c) => ({
-    label: "S" + c.semana,
-    value: c.peso,
+  const pesoData = historico.map((c, i, arr) => ({
+    date: "S" + c.semana,
+    total: c.peso,
+    change: i === 0 ? 0 : c.peso - arr[i - 1].peso,
   }));
 
   const feedbackItens: { label: string; nota: number; icon: string }[] = [
@@ -109,16 +110,12 @@ export default function RevisaoCheckinPage({
         />
       </div>
 
-      <Card>
-        <CardHeader title="Evolução do peso" />
-        <CardBody>
-          <LineChart
-            data={pesoData}
-            unit=" kg"
-            formatValue={(v) => v.toFixed(1)}
-          />
-        </CardBody>
-      </Card>
+      <PointsChart
+        title="Evolução do peso"
+        data={pesoData}
+        format="decimal1"
+        unit=" kg"
+      />
 
       <Card>
         <CardHeader

@@ -1,27 +1,43 @@
+/* ============================================================
+   Sidebar do consultor — trilho de ícones que EXPANDE no hover.
+   Cores claras (tema do app do consultor) preservadas.
+   ============================================================ */
 .sidebar {
   position: fixed;
   top: 0;
   left: 0;
   bottom: 0;
-  width: var(--sidebar-w);
+  width: var(--sidebar-w-collapsed); /* trilho 72px */
   background: var(--color-background-primary);
   border-right: 1px solid var(--color-border-tertiary);
   display: flex;
   flex-direction: column;
   z-index: 50;
-  transition: width var(--transition), transform var(--transition);
+  overflow: hidden; /* clipa os rótulos no trilho */
+  transition: width var(--transition), box-shadow var(--transition),
+    transform var(--transition);
 }
 
-.sidebar[data-collapsed="true"] {
-  width: var(--sidebar-w-collapsed);
+.sidebar:hover {
+  width: var(--sidebar-w); /* 248px ao passar o mouse */
+  box-shadow: var(--shadow-pop);
 }
 
-/* ---------- Cabeçalho ---------- */
+/* Rótulos: escondidos no trilho, revelam no hover */
+.label {
+  opacity: 0;
+  white-space: nowrap;
+  transition: opacity var(--transition);
+}
+
+.sidebar:hover .label {
+  opacity: 1;
+}
+
+/* ---------- Cabeçalho / logo ---------- */
 .head {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: var(--space-2);
   height: var(--topbar-h);
   padding: 0 var(--space-4);
   border-bottom: 1px solid var(--color-border-tertiary);
@@ -46,35 +62,10 @@
   font-size: 18px;
 }
 
-.logoText {
+.logo .label {
   font-weight: 600;
   font-size: 16px;
   letter-spacing: -0.01em;
-  white-space: nowrap;
-}
-
-.collapseBtn {
-  display: grid;
-  place-items: center;
-  width: 30px;
-  height: 30px;
-  flex-shrink: 0;
-  border: none;
-  background: transparent;
-  border-radius: var(--border-radius-md);
-  color: var(--color-text-tertiary);
-  cursor: pointer;
-  font-size: 18px;
-  transition: background var(--transition), color var(--transition);
-}
-
-.collapseBtn:hover {
-  background: var(--color-background-secondary);
-  color: var(--color-text-primary);
-}
-
-.sidebar[data-collapsed="true"] .logoText {
-  display: none;
 }
 
 /* ---------- Navegação ---------- */
@@ -84,14 +75,15 @@
   flex-direction: column;
   gap: 2px;
   padding: var(--space-4) var(--space-3);
-  overflow-y: auto;
+  overflow: hidden;
 }
 
 .navItem {
   display: flex;
   align-items: center;
   gap: var(--space-3);
-  padding: 10px var(--space-3);
+  height: 40px;
+  padding: 0 10px;
   border-radius: var(--border-radius-md);
   color: var(--color-text-secondary);
   font-size: 14px;
@@ -102,6 +94,8 @@
 
 .navItem i {
   font-size: 20px;
+  width: 24px;
+  text-align: center;
   flex-shrink: 0;
 }
 
@@ -115,50 +109,12 @@
   color: var(--color-text-info);
 }
 
-.sidebar[data-collapsed="true"] .navLabel {
-  display: none;
-}
-
-.sidebar[data-collapsed="true"] .navItem {
-  justify-content: center;
-  padding: 10px;
-}
-
 /* ---------- Card do usuário ---------- */
-.adminLink {
-  display: flex;
-  align-items: center;
-  gap: var(--space-3);
-  margin: 0 var(--space-3);
-  padding: 10px var(--space-3);
-  border-radius: var(--border-radius-md);
-  color: var(--color-text-secondary);
-  font-size: 14px;
-  font-weight: 500;
-  white-space: nowrap;
-  transition: background var(--transition), color var(--transition);
-}
-
-.adminLink i {
-  font-size: 20px;
-  flex-shrink: 0;
-}
-
-.adminLink:hover {
-  background: var(--color-background-secondary);
-  color: var(--color-text-primary);
-}
-
-.sidebar[data-collapsed="true"] .adminLink {
-  justify-content: center;
-  padding: 10px;
-}
-
 .userRow {
   display: flex;
   align-items: center;
   gap: var(--space-2);
-  margin: var(--space-3);
+  margin: var(--space-3) 10px;
 }
 
 .userCard {
@@ -167,9 +123,8 @@
   gap: var(--space-3);
   flex: 1;
   min-width: 0;
-  padding: var(--space-3);
+  padding: 6px;
   border-radius: var(--border-radius-lg);
-  border: 1px solid var(--color-border-tertiary);
   transition: background var(--transition);
 }
 
@@ -177,39 +132,16 @@
   background: var(--color-background-secondary);
 }
 
-.logout {
-  display: grid;
-  place-items: center;
-  width: 38px;
-  height: 38px;
-  flex-shrink: 0;
-  border-radius: var(--border-radius-md);
-  border: 1px solid var(--color-border-tertiary);
-  color: var(--color-text-tertiary);
-  font-size: 19px;
-  transition: background var(--transition), color var(--transition);
-}
-
-.logout:hover {
-  background: var(--color-background-danger);
-  color: var(--color-text-danger);
-  border-color: transparent;
-}
-
-.sidebar[data-collapsed="true"] .logout {
-  display: none;
-}
-
 .avatar {
   display: grid;
   place-items: center;
-  width: 36px;
-  height: 36px;
+  width: 32px;
+  height: 32px;
   flex-shrink: 0;
   border-radius: 50%;
   background: var(--color-background-tertiary);
   color: var(--color-text-secondary);
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 600;
 }
 
@@ -236,37 +168,39 @@
   text-overflow: ellipsis;
 }
 
-.sidebar[data-collapsed="true"] .userMeta {
-  display: none;
+.logout {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  border-radius: var(--border-radius-md);
+  border: 1px solid var(--color-border-tertiary);
+  color: var(--color-text-tertiary);
+  font-size: 19px;
+  transition: background var(--transition), color var(--transition);
 }
 
-.sidebar[data-collapsed="true"] .userCard {
-  justify-content: center;
+.logout:hover {
+  background: var(--color-background-danger);
+  color: var(--color-text-danger);
+  border-color: transparent;
 }
 
-/* ---------- Mobile ---------- */
+/* ---------- Mobile (drawer) ---------- */
 @media (max-width: 880px) {
   .sidebar {
+    width: var(--sidebar-w); /* largura cheia no mobile */
     transform: translateX(-100%);
     box-shadow: var(--shadow-pop);
   }
 
-  .sidebar[data-collapsed="true"] {
-    width: var(--sidebar-w);
-  }
-
-  .sidebar[data-collapsed="true"] .logoText,
-  .sidebar[data-collapsed="true"] .navLabel,
-  .sidebar[data-collapsed="true"] .userMeta {
-    display: revert;
-  }
-
-  :global(.shell[data-mobile-open="true"]) .sidebar {
+  .sidebar[data-open="true"] {
     transform: translateX(0);
   }
 
-  /* No mobile o botão de colapsar não faz sentido */
-  .collapseBtn {
-    display: none;
+  /* No mobile o menu não usa hover: rótulos sempre visíveis */
+  .label {
+    opacity: 1;
   }
 }

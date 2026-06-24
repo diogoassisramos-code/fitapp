@@ -16,9 +16,8 @@ import {
   ListRow,
   Avatar,
   EmptyState,
-  BarChart,
 } from "@/components/ui";
-import { listAlunos, stats, planoNome, financeiro } from "@/lib/data";
+import { listAlunos, stats, planoNome } from "@/lib/data";
 import {
   brl,
   dataCurta,
@@ -193,26 +192,6 @@ export default function ResumoPage() {
           )}
         </div>
       </section>
-
-      <Card className={styles.faturamento}>
-        <CardHeader
-          title="Faturamento (6 meses)"
-          action={
-            <Button variant="ghost" size="sm" iconRight="arrow-right" href="/financeiro">
-              Ver financeiro
-            </Button>
-          }
-        />
-        <CardBody>
-          <BarChart
-            data={financeiro.faturamento6m.map((f) => ({
-              label: f.mes,
-              value: f.valor,
-            }))}
-            formatValue={(v) => "R$" + (v / 1000).toFixed(0) + "k"}
-          />
-        </CardBody>
-      </Card>
 
       <Card>
         <CardHeader

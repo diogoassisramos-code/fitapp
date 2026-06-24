@@ -6,7 +6,6 @@ import {
   Button,
   Card,
   CardHeader,
-  CardBody,
   MetricCard,
   ListRow,
   StatusBadge,
@@ -14,7 +13,7 @@ import {
   Modal,
   Input,
   EmptyState,
-  BarChart,
+  PointsChart,
 } from "@/components/ui";
 import {
   coach,
@@ -117,31 +116,26 @@ export default function FinanceiroPage() {
       </div>
 
       {/* Faturamento */}
-      <Card>
-        <CardHeader
-          title="Faturamento"
-          action={
-            <Segmented
-              options={[
-                { label: "6 meses", value: "6m" },
-                { label: "12 meses", value: "12m" },
-              ]}
-              value={periodo}
-              onChange={setPeriodo}
-              ariaLabel="Período do faturamento"
-            />
-          }
-        />
-        <CardBody>
-          <BarChart
-            data={financeiro.faturamento6m.map((f) => ({
-              label: f.mes,
-              value: f.valor,
-            }))}
-            formatValue={(v) => "R$" + (v / 1000).toFixed(0) + "k"}
+      <PointsChart
+        title="Faturamento"
+        headerRight={
+          <Segmented
+            options={[
+              { label: "6 meses", value: "6m" },
+              { label: "12 meses", value: "12m" },
+            ]}
+            value={periodo}
+            onChange={setPeriodo}
+            ariaLabel="Período do faturamento"
           />
-        </CardBody>
-      </Card>
+        }
+        data={financeiro.faturamento6m.map((f, i, a) => ({
+          date: f.mes,
+          total: f.valor,
+          change: i === 0 ? 0 : f.valor - a[i - 1].valor,
+        }))}
+        format="currency"
+      />
 
       <div className={styles.split}>
         {/* Próximos recebimentos */}

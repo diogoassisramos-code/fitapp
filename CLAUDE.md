@@ -19,6 +19,7 @@ Dashboard web do prestador (consultoria fitness). Next.js App Router. App do alu
   - `Button` (primary/outline/ghost/danger, `href` vira Link), `Card`/`CardHeader`/`CardBody`,
     `MetricCard`, `StatusBadge` (ok/late/pending/new/off), `Toggle` (40×23), `Segmented`,
     `Chip`, `Input`, `Textarea` (com contador), `ListRow`, `SectionBlock`, `Avatar`.
+  - Gráficos: `LineChart`/`BarChart` (SVG sem dependências, usados no app do consultor) e `PointsChart` (recharts + `lucide-react`, usado nos gráficos do **admin** — linha suave, grid tracejado, tooltip e linhas de nível com estrela; estilizado com os tokens do projeto via `PointsChart.module.css`, sem Tailwind). Em Server Components, passar `formatValue` (função) ao `PointsChart` exige `"use client"` na página.
   - CSS compartilhado: `src/components/ui/ui.module.css`.
 - `src/components/` — `PageHeader`, `Placeholder` (compartilhados entre telas).
 - `src/lib/` — `nav.ts` (itens do menu + COACH de exemplo), `format.ts` (`brl()`), `testAlunos.ts` (store localStorage dos **alunos de teste** do modelo experimental — `addTestAluno`/`getTestAlunos`/`getTestAluno`/`conviteUrl`/`camposPendentes`, `LIMITE_ALUNOS_TESTE = 3`; só o nome é obrigatório; ler via `useEffect` para evitar mismatch de hidratação), `useAlunoResolvido.ts` (hook client que resolve um id como aluno seeded OU de teste — os builders treino/dieta/protocolo usam para funcionar com alunos de teste sem 404).

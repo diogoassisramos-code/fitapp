@@ -27,3 +27,5 @@ export type { TabItem } from "./Tabs";
 export { SortableList } from "./SortableList";
 export { LineChart, BarChart } from "./Charts";
 export type { ChartPoint } from "./Charts";
+export { PointsChart } from "./PointsChart";
+export type { PointsChartDataPoint, PointsChartLevel } from "./PointsChart";

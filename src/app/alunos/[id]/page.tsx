@@ -8,7 +8,7 @@ import {
   Avatar,
   EmptyState,
   ListRow,
-  LineChart,
+  PointsChart,
 } from "@/components/ui";
 import { TestAlunoFicha } from "@/components/screens/test-aluno/TestAlunoFicha";
 import {
@@ -64,7 +64,11 @@ export default async function FichaAlunoPage({
   const historico = [...getCheckins(aluno.id)].sort((a, b) => b.semana - a.semana);
   const pesoData = [...getCheckins(aluno.id)]
     .sort((a, b) => a.semana - b.semana)
-    .map((c) => ({ label: `S${c.semana}`, value: c.peso }));
+    .map((c, i, arr) => ({
+      date: `S${c.semana}`,
+      total: c.peso,
+      change: i === 0 ? 0 : c.peso - arr[i - 1].peso,
+    }));
 
   return (
     <div className={styles.page}>
@@ -354,13 +358,7 @@ export default async function FichaAlunoPage({
               Peso registrado a cada check-in.
             </p>
           </div>
-          <Card padded>
-            <LineChart
-              data={pesoData}
-              unit=" kg"
-              formatValue={(v) => v.toFixed(1)}
-            />
-          </Card>
+          <PointsChart data={pesoData} format="decimal1" unit=" kg" />
         </section>
       )}
 

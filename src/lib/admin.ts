@@ -64,6 +64,8 @@ export type AlunoPlataforma = {
   objetivo: string;
   status: "ativo" | "inativo";
   desde: string;
+  /** Liga ao aluno "rico" do app do consultor (data.ts) — treino/dieta/protocolo/ficha. */
+  coachAlunoId?: string;
 };
 
 // ---------------- Transação da plataforma ----------------
@@ -145,10 +147,10 @@ export const assinaturas: AssinaturaPlataforma[] = consultorias.map((c, i) => ({
 
 export const alunosPlataforma: AlunoPlataforma[] = [
   // Consultoria 1 — Rafael (CoachFit) — espelha o app do consultor
-  { id: "ap1", nome: "Ana Paula Souza", consultoriaId: "c1", consultor: "Rafael Mendes", objetivo: "Hipertrofia", status: "ativo", desde: "2026-05-03" },
-  { id: "ap2", nome: "Bruno Lima", consultoriaId: "c1", consultor: "Rafael Mendes", objetivo: "Emagrecimento", status: "ativo", desde: "2026-04-12" },
-  { id: "ap3", nome: "Eduarda Nunes", consultoriaId: "c1", consultor: "Rafael Mendes", objetivo: "Emagrecimento", status: "ativo", desde: "2026-02-10" },
-  { id: "ap4", nome: "Felipe Costa", consultoriaId: "c1", consultor: "Rafael Mendes", objetivo: "Condicionamento", status: "ativo", desde: "2026-01-15" },
+  { id: "ap1", nome: "Ana Paula Souza", consultoriaId: "c1", consultor: "Rafael Mendes", objetivo: "Hipertrofia", status: "ativo", desde: "2026-05-03", coachAlunoId: "1" },
+  { id: "ap2", nome: "Bruno Lima", consultoriaId: "c1", consultor: "Rafael Mendes", objetivo: "Emagrecimento", status: "ativo", desde: "2026-04-12", coachAlunoId: "2" },
+  { id: "ap3", nome: "Eduarda Nunes", consultoriaId: "c1", consultor: "Rafael Mendes", objetivo: "Emagrecimento", status: "ativo", desde: "2026-02-10", coachAlunoId: "5" },
+  { id: "ap4", nome: "Felipe Costa", consultoriaId: "c1", consultor: "Rafael Mendes", objetivo: "Condicionamento", status: "ativo", desde: "2026-01-15", coachAlunoId: "6" },
   // Consultoria 2 — Ana Beatriz (FitAna)
   { id: "ap5", nome: "Larissa Martins", consultoriaId: "c2", consultor: "Ana Beatriz Lima", objetivo: "Hipertrofia", status: "ativo", desde: "2026-03-21" },
   { id: "ap6", nome: "Rodrigo Alves", consultoriaId: "c2", consultor: "Ana Beatriz Lima", objetivo: "Emagrecimento", status: "ativo", desde: "2026-02-28" },
@@ -252,6 +254,9 @@ export function listAlunosPlataforma(): AlunoPlataforma[] {
 }
 export function listAlunosPorConsultoria(consultoriaId: string): AlunoPlataforma[] {
   return alunosPlataforma.filter((a) => a.consultoriaId === consultoriaId);
+}
+export function getAlunoPlataforma(id: string): AlunoPlataforma | undefined {
+  return alunosPlataforma.find((a) => a.id === id);
 }
 export function listTransacoesPlataforma(): TransacaoPlataforma[] {
   return transacoesPlataforma;

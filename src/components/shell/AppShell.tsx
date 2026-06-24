@@ -11,7 +11,6 @@ import styles from "./AppShell.module.css";
 const FULLSCREEN_PREFIXES = ["/login", "/cadastro", "/recuperar-senha"];
 
 export function AppShell({ children }: { children: React.ReactNode }) {
-  const [collapsed, setCollapsed] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const pathname = usePathname();
 
@@ -29,14 +28,9 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   }
 
   return (
-    <div
-      className={styles.shell}
-      data-collapsed={collapsed}
-      data-mobile-open={mobileOpen}
-    >
+    <div className={styles.shell} data-mobile-open={mobileOpen}>
       <Sidebar
-        collapsed={collapsed}
-        onToggleCollapse={() => setCollapsed((c) => !c)}
+        open={mobileOpen}
         onCloseMobile={() => setMobileOpen(false)}
       />
 

@@ -5,12 +5,11 @@ import { PageHeader } from "@/components/PageHeader";
 import {
   Button,
   Card,
-  CardHeader,
   MetricCard,
   ListRow,
   StatusBadge,
   Segmented,
-  BarChart,
+  PointsChart,
 } from "@/components/ui";
 import type { BadgeVariant } from "@/components/ui";
 import { adminFinanceiro, listTransacoesPlataforma } from "@/lib/admin";
@@ -104,26 +103,26 @@ export default function AdminFinanceiroPage() {
 
       {/* Gráficos */}
       <section className={styles.charts}>
-        <Card padded>
-          <CardHeader title="Receita da plataforma (6 meses)" />
-          <BarChart
-            data={adminFinanceiro.faturamento6m.map((d) => ({
-              label: d.mes,
-              value: d.valor,
-            }))}
-            formatValue={(v) => `R$ ${v}`}
-          />
-        </Card>
-        <Card padded>
-          <CardHeader title="Volume processado (6 meses)" />
-          <BarChart
-            data={adminFinanceiro.volume6m.map((d) => ({
-              label: d.mes,
-              value: d.valor,
-            }))}
-            formatValue={(v) => `R$ ${Math.round(v / 1000)}k`}
-          />
-        </Card>
+        <PointsChart
+          title="Receita da plataforma (6 meses)"
+          data={adminFinanceiro.faturamento6m.map((d, i, a) => ({
+            date: d.mes,
+            total: d.valor,
+            change: i === 0 ? 0 : d.valor - a[i - 1].valor,
+          }))}
+          formatValue={(v) => "R$ " + Math.round(v).toLocaleString("pt-BR")}
+          levels={[{ value: 700, color: "var(--color-text-success)" }]}
+        />
+        <PointsChart
+          title="Volume processado (6 meses)"
+          data={adminFinanceiro.volume6m.map((d, i, a) => ({
+            date: d.mes,
+            total: d.valor,
+            change: i === 0 ? 0 : d.valor - a[i - 1].valor,
+          }))}
+          formatValue={(v) => "R$ " + Math.round(v / 1000) + "k"}
+          levels={[{ value: 110000, color: "var(--color-text-success)" }]}
+        />
       </section>
 
       {/* Extrato */}

@@ -1,14 +1,15 @@
+"use client";
+
 import { PageHeader } from "@/components/PageHeader";
 import {
   Button,
   Card,
   CardHeader,
-  CardBody,
   MetricCard,
   StatusBadge,
   ListRow,
   Avatar,
-  BarChart,
+  PointsChart,
 } from "@/components/ui";
 import {
   adminStats,
@@ -75,30 +76,26 @@ export default function AdminVisaoGeralPage() {
       </section>
 
       <section className={styles.charts}>
-        <Card>
-          <CardHeader title="Receita da plataforma (6 meses)" />
-          <CardBody>
-            <BarChart
-              data={adminFinanceiro.faturamento6m.map((f) => ({
-                label: f.mes,
-                value: f.valor,
-              }))}
-              formatValue={(v) => "R$" + v}
-            />
-          </CardBody>
-        </Card>
-        <Card>
-          <CardHeader title="Volume processado (6 meses)" />
-          <CardBody>
-            <BarChart
-              data={adminFinanceiro.volume6m.map((f) => ({
-                label: f.mes,
-                value: f.valor,
-              }))}
-              formatValue={(v) => "R$" + (v / 1000).toFixed(0) + "k"}
-            />
-          </CardBody>
-        </Card>
+        <PointsChart
+          title="Receita da plataforma (6 meses)"
+          data={adminFinanceiro.faturamento6m.map((f, i, a) => ({
+            date: f.mes,
+            total: f.valor,
+            change: i === 0 ? 0 : f.valor - a[i - 1].valor,
+          }))}
+          formatValue={(v) => "R$ " + Math.round(v).toLocaleString("pt-BR")}
+          levels={[{ value: 700, color: "var(--color-text-success)" }]}
+        />
+        <PointsChart
+          title="Volume processado (6 meses)"
+          data={adminFinanceiro.volume6m.map((f, i, a) => ({
+            date: f.mes,
+            total: f.valor,
+            change: i === 0 ? 0 : f.valor - a[i - 1].valor,
+          }))}
+          formatValue={(v) => "R$ " + (v / 1000).toFixed(0) + "k"}
+          levels={[{ value: 110000, color: "var(--color-text-success)" }]}
+        />
       </section>
 
       <Card padded={false}>
